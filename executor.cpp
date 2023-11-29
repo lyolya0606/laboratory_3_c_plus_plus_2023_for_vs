@@ -10,6 +10,7 @@
 #include "lexical_analizer.h"
 #include "commands.h"
 
+// Регистрация имен для команд
 void register_commands() {
   NT.RegisterCommand("FOR",new CmdFor);
   NT.RegisterCommand("GOTO",new CmdGoto);
@@ -47,8 +48,8 @@ bool execute_command(Parser &parser) {
   return true;  
 }
 
-void scan_for_labels(Parser& parser)
-{
+// Сохранение точки перехода для goto
+void scan_for_labels(Parser& parser) {
   bool prev_lexem_is_EOL(true);
   while (parser.get_lexem().type != LT_End) {
     if ( prev_lexem_is_EOL && parser.get_last().type == LT_Number ) {
@@ -61,7 +62,7 @@ void scan_for_labels(Parser& parser)
   }
 }
 
-
+// Запуск интерпретатора
 void execute_script(std::istream& in) {
   register_commands();
   Parser  parser(in);
